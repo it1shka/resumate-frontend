@@ -4,6 +4,7 @@ import {
   Button,
   InputAdornment,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -58,6 +59,15 @@ const Search = () => {
     }
   }, [search])
 
+  const isValidURL = useMemo(() => {
+    try {
+      new URL(search)
+      return true
+    } catch {
+      return false
+    }
+  }, [search])
+
   type SearchChange = React.ChangeEvent<HTMLInputElement>
   const handleSearchChange = useCallback(
     (event: SearchChange) => {
@@ -66,6 +76,20 @@ const Search = () => {
     },
     [search],
   )
+
+  const searchStatus = useMemo(() => {
+    if (search.length === 0) return 'Enter a link to start'
+    if (!isValidURL) return 'Invalid URL'
+    if (!currentDomain) return 'Other website'
+    return `Detected domain of ${currentDomain.name}!`
+  }, [search, currentDomain, isValidURL])
+
+  const searchStatusColor = useMemo(() => {
+    if (search.length === 0) return 'text.secondary'
+    if (!isValidURL) return 'error.main'
+    if (!currentDomain) return 'info.main'
+    return 'success.main'
+  }, [search, currentDomain, isValidURL])
 
   return (
     <Box
@@ -143,59 +167,54 @@ const Search = () => {
           }}
         >
           {supportedDomains.map(domain => (
-            <Box
-              key={domain.domain}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1,
-                padding: 1,
-                borderRadius: 1,
-                backgroundColor:
-                  domain.domain === currentDomain?.domain
-                    ? 'action.selected'
-                    : 'transparent',
-              }}
-            >
-              <img
-                src={domain.icon}
-                alt={domain.name}
-                style={{ width: 'auto', height: 40 }}
-              />
-              <Typography
-                variant="body2"
+            <Tooltip title={domain.domain}>
+              <Box
+                key={domain.domain}
                 sx={{
-                  fontWeight:
-                    domain.domain === currentDomain?.domain ? 'bold' : 'normal',
-                  color:
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1,
+                  padding: 1,
+                  borderRadius: 1,
+                  backgroundColor:
                     domain.domain === currentDomain?.domain
-                      ? 'primary.main'
-                      : 'text.primary',
+                      ? 'action.selected'
+                      : 'transparent',
                 }}
               >
-                {domain.name}
-              </Typography>
-            </Box>
+                <img
+                  src={domain.icon}
+                  alt={domain.name}
+                  style={{ width: 'auto', height: 40 }}
+                />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight:
+                      domain.domain === currentDomain?.domain ? 'bold' : 'normal',
+                    color:
+                      domain.domain === currentDomain?.domain
+                        ? 'primary.main'
+                        : 'text.primary',
+                  }}
+                >
+                  {domain.name}
+                </Typography>
+              </Box>
+            </Tooltip>
           ))}
         </Box>
         <Typography
           variant="body1"
           sx={{
             marginTop: 2,
-            color:
-              search.length === 0
-                ? 'text.secondary'
-                : !currentDomain && search.length > 0
-                  ? 'error.main'
-                  : 'success.main',
+            color: searchStatusColor,
             fontWeight: 'bold',
             textAlign: 'center',
           }}
         >
-          {search.length === 0 && 'Enter a link to start'}
-          {!currentDomain && search.length > 0 && 'Unsupported website'}
-          {currentDomain && 'You are ready to go!'}
+          {searchStatus}
         </Typography>
       </Box>
     </Box>
