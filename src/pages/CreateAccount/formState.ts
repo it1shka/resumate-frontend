@@ -115,21 +115,21 @@ export const useResumeState = create<ResumeState>((set, get) => ({
 }))
 
 export type SkillsState = {
-  soft?: string
-  hard?: string
+  soft: string[]
+  hard: string[]
 
-  setSoftSkill: (newSoftSkill?: string) => void
-  setHardSkill: (newHardSkill?: string) => void
+  setSoftSkill: (newSoftSkill: string[]) => void
+  setHardSkill: (newHardSkill: string[]) => void
 }
 
 export const useSkillsState = create<SkillsState>(set => ({
-  soft: undefined,
-  hard: undefined,
+  soft: [],
+  hard: [],
 
-  setSoftSkill: (newSoftSkill?: string) => {
+  setSoftSkill: (newSoftSkill: string[]) => {
     set(prev => ({ ...prev, soft: newSoftSkill }))
   },
-  setHardSkill: (newHardSkill?: string) => {
+  setHardSkill: (newHardSkill: string[]) => {
     set(prev => ({ ...prev, hard: newHardSkill }))
   },
 }))
