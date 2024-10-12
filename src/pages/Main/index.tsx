@@ -10,7 +10,7 @@ const Main = () => {
   }, [navigate])
 
   const handleStartForFree = useCallback(() => {
-    navigate('/search')
+    navigate('/auth/login')
   }, [navigate])
 
   return (
@@ -50,34 +50,31 @@ const Main = () => {
         Your AI-powered companion for crafting the perfect resume
       </Typography>
       <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
-        <Tooltip title="Access basic features without registration">
-          <Button
-            onClick={handleStartForFree}
-            variant="outlined"
-            color="primary"
-            sx={{
-              animation: 'fadeIn 0.5s ease-in-out 0.6s',
-              opacity: 0,
-              animationFillMode: 'forwards',
-            }}
-          >
-            Start for free
-          </Button>
-        </Tooltip>
-        <Tooltip title="Access the full power of our product">
-          <Button
-            onClick={handleCreateAccount}
-            variant="contained"
-            color="primary"
-            sx={{
-              animation: 'fadeIn 0.5s ease-in-out 0.9s',
-              opacity: 0,
-              animationFillMode: 'forwards',
-            }}
-          >
-            Create an account
-          </Button>
-        </Tooltip>
+        <Button
+          onClick={handleStartForFree}
+          variant="outlined"
+          color="primary"
+          sx={{
+            animation: 'fadeIn 0.5s ease-in-out 0.6s',
+            opacity: 0,
+            animationFillMode: 'forwards',
+            minWidth: '191px',
+          }}
+        >
+          Login
+        </Button>
+        <Button
+          onClick={handleCreateAccount}
+          variant="contained"
+          color="primary"
+          sx={{
+            animation: 'fadeIn 0.5s ease-in-out 0.9s',
+            opacity: 0,
+            animationFillMode: 'forwards',
+          }}
+        >
+          Create an account
+        </Button>
       </Box>
     </Box>
   )
