@@ -1,7 +1,18 @@
 import { Box, Button, Tooltip, Typography } from '@mui/material'
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Main = () => {
+  const navigate = useNavigate()
+
+  const handleCreateAccount = useCallback(() => {
+    navigate('/auth/create-account')
+  }, [navigate])
+
+  const handleStartForFree = useCallback(() => {
+    navigate('/search')
+  }, [navigate])
+
   return (
     <Box
       sx={{
@@ -41,6 +52,7 @@ const Main = () => {
       <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
         <Tooltip title="Access basic features without registration">
           <Button
+            onClick={handleStartForFree}
             variant="outlined"
             color="primary"
             sx={{
@@ -54,6 +66,7 @@ const Main = () => {
         </Tooltip>
         <Tooltip title="Access the full power of our product">
           <Button
+            onClick={handleCreateAccount}
             variant="contained"
             color="primary"
             sx={{
