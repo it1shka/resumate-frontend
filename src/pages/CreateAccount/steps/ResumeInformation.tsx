@@ -28,15 +28,15 @@ const ResumeInformation = () => {
   )
 
   const handleExperienceChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      resumeState.setExperience(event.target.value)
+    (_: any, newValue: string | null) => {
+      resumeState.setExperience(newValue ?? undefined)
     },
     [resumeState],
   )
 
   const handleEducationChange = useCallback(
     (_: any, newValue: string | null) => {
-      resumeState.setEducation(newValue || undefined)
+      resumeState.setEducation(newValue ?? undefined)
     },
     [resumeState],
   )
@@ -47,32 +47,32 @@ const ResumeInformation = () => {
         label="Phone Number"
         fullWidth
         margin="normal"
-        value={resumeState.phone || ''}
+        value={resumeState.phone ?? ''}
         onChange={handlePhoneChange}
       />
       <TextField
         label="Email Address"
         fullWidth
         margin="normal"
-        value={resumeState.email || ''}
+        value={resumeState.email ?? ''}
         onChange={handleEmailChange}
       />
       <TextField
         label="Location"
         fullWidth
         margin="normal"
-        value={resumeState.location || ''}
+        value={resumeState.location ?? ''}
         onChange={handleLocationChange}
       />
       <Autocomplete
         options={experience}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField {...params} label="Experience" fullWidth margin="normal" />
         )}
         fullWidth
         freeSolo
-        value={resumeState.experience || null}
-        onChange={(_, newValue) => resumeState.setExperience(newValue || undefined)}
+        value={resumeState.experience ?? null}
+        onChange={handleExperienceChange}
       />
       <Autocomplete
         options={education}
@@ -81,7 +81,7 @@ const ResumeInformation = () => {
         )}
         fullWidth
         freeSolo
-        value={resumeState.education || null}
+        value={resumeState.education ?? null}
         onChange={handleEducationChange}
       />
     </>

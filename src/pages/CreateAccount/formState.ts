@@ -32,14 +32,16 @@ export const useAuthState = create<AuthState>((set, get) => ({
 
   isComplete: () => {
     const { username, password, confirmPassword } = get()
-    return username.length >= 4 &&
+    return (
+      username.length >= 4 &&
       password === confirmPassword &&
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
       /[a-z]/.test(password) &&
       /[0-9]/.test(password) &&
       /[^A-Za-z0-9]/.test(password)
-  }
+    )
+  },
 }))
 
 export type PersonalState = {
@@ -107,36 +109,27 @@ export const useResumeState = create<ResumeState>((set, get) => ({
     const { email } = get()
     return (
       // (!phone || /^(?:\+1)?\s?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/.test(phone)) &&
-      (!email || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email))
+      !email || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)
     )
-  }
+  },
 }))
 
 export type SkillsState = {
-  soft: string[]
-  hard: string[]
+  soft?: string
+  hard?: string
+
+  setSoftSkill: (newSoftSkill?: string) => void
+  setHardSkill: (newHardSkill?: string) => void
 }
 
 export const useSkillsState = create<SkillsState>(set => ({
-  soft: [],
-  hard: [],
+  soft: undefined,
+  hard: undefined,
 
-  addSoftSkill: (newSoftSkill: string) => {
-    set(prev => ({ ...prev, soft: [...prev.soft, newSoftSkill] }))
+  setSoftSkill: (newSoftSkill?: string) => {
+    set(prev => ({ ...prev, soft: newSoftSkill }))
   },
-  addHardSkill: (newHardSkill: string) => {
-    set(prev => ({ ...prev, hard: [...prev.hard, newHardSkill] }))
-  },
-  removeSoftSkill: (oldSoftSkill: string) => {
-    set(prev => ({
-      ...prev,
-      soft: prev.soft.filter(skill => skill !== oldSoftSkill),
-    }))
-  },
-  removeHardSkill: (oldHardSkill: string) => {
-    set(prev => ({
-      ...prev,
-      hard: prev.hard.filter(skill => skill !== oldHardSkill),
-    }))
+  setHardSkill: (newHardSkill?: string) => {
+    set(prev => ({ ...prev, hard: newHardSkill }))
   },
 }))

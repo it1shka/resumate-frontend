@@ -10,7 +10,13 @@ import { memo, useCallback, useMemo, useState } from 'react'
 import AuthInformation from './steps/AuthInformation'
 import UserInformation from './steps/UserInformation'
 import ResumeInformation from './steps/ResumeInformation'
-import { useAuthState, useResumeState } from './formState'
+import {
+  useAuthState,
+  usePersonalState,
+  useResumeState,
+  useSkillsState,
+} from './formState'
+import SkillsInformation from './steps/SkillsInformation'
 
 type FormSchema = Readonly<
   Array<{
@@ -21,16 +27,20 @@ type FormSchema = Readonly<
 
 const formSchema: FormSchema = Object.freeze([
   {
-    label: 'Required Information',
+    label: 'Required',
     component: <AuthInformation />,
   },
   {
-    label: 'Personal Profile',
+    label: 'Personal',
     component: <UserInformation />,
   },
   {
-    label: 'Resume Information',
+    label: 'Resume',
     component: <ResumeInformation />,
+  },
+  {
+    label: 'Skills',
+    component: <SkillsInformation />,
   },
 ])
 
@@ -38,7 +48,9 @@ const CreateAccount = () => {
   const [step, setStep] = useState(0)
 
   const authState = useAuthState()
+  const personalState = usePersonalState()
   const resumeState = useResumeState()
+  const skillsState = useSkillsState()
 
   const isStepValid = useMemo(() => {
     switch (step) {
@@ -65,7 +77,15 @@ const CreateAccount = () => {
   const handleSubmit = useCallback(() => {
     if (!isLastStep || !isStepValid) return
     // TODO: submit form
-  }, [isLastStep, isStepValid])
+    console.log(authState, personalState, resumeState, skillsState)
+  }, [
+    isLastStep,
+    isStepValid,
+    authState,
+    personalState,
+    resumeState,
+    skillsState,
+  ])
 
   return (
     <Box

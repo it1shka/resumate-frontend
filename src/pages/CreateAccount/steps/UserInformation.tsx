@@ -25,7 +25,7 @@ const UserInformation = () => {
   return (
     <>
       <Autocomplete
-        value={personalState.role}
+        value={personalState.role ?? ''}
         options={roles}
         renderInput={params => (
           <TextField {...params} label="Role" fullWidth margin="normal" />
@@ -35,7 +35,7 @@ const UserInformation = () => {
         onChange={handleRoleChange}
       />
       <TextField
-        value={personalState.description}
+        value={personalState.description ?? ''}
         label="Description"
         fullWidth
         multiline
