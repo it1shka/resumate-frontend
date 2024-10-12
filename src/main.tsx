@@ -39,7 +39,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <NotificationsManager/>
+    <NotificationsManager />
     <RouterProvider router={router} />
   </StrictMode>,
 )

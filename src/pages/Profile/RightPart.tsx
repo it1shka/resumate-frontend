@@ -51,7 +51,9 @@ const RightPart = () => {
         />
       </Box>
       <Box sx={{ flex: 1, display: 'flex', width: '100%', mt: 2 }}>
-        <Box sx={{ flex: 1, borderRight: '1px solid rgba(0, 0, 0, 0.12)', p: 2 }}>
+        <Box
+          sx={{ flex: 1, borderRight: '1px solid rgba(0, 0, 0, 0.12)', p: 2 }}
+        >
           <Typography variant="h6" sx={{ textAlign: 'center' }}>
             Hard Skills
           </Typography>
