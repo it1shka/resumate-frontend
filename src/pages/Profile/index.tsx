@@ -6,10 +6,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
+  Tooltip,
 } from '@mui/material'
 import { memo, useCallback, useState } from 'react'
 import LeftPart from './LeftPart'
 import RightPart from './RightPart'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useNavigate } from 'react-router-dom'
 
 enum DialogAction {
   Reset = 'reset',
@@ -47,6 +51,12 @@ const Profile = () => {
     handleDialogClose()
   }, [dialogState.action, handleDialogClose])
 
+
+  const navigate = useNavigate()
+  const handleBackToSearch = useCallback(() => {
+    navigate('/search')
+  }, [navigate])
+
   return (
     <Box
       sx={{
@@ -57,6 +67,18 @@ const Profile = () => {
         position: 'relative',
       }}
     >
+      <Box sx={{ position: 'absolute', top: '0.5em', left: '0.5em' }}>
+        <Tooltip title="Go to the search">
+          <IconButton
+            color="primary"
+            aria-label="back to search"
+            onClick={handleBackToSearch}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Tooltip>
+
+      </Box>
       <LeftPart />
       <RightPart />
       <Box
