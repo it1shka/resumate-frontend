@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import logo from '../../assets/logo.svg'
 
 const Main = () => {
   const navigate = useNavigate()
@@ -23,20 +24,14 @@ const Main = () => {
         height: '100vh',
       }}
     >
-      <Typography variant="h1">
-        <Box
-          component="span"
-          sx={{
-            display: 'inline-block',
-            animation: 'fadeIn 0.5s ease-in-out',
-          }}
-        >
-          Resu
-          <Box component="span" sx={{ color: 'primary.main' }}>
-            Mate
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, animation: 'fadeIn 0.5s ease-in-out', mb: 3 }}>
+        <Box component="img" src={logo} alt="ResuMate Logo" sx={{ width: 100, height: 100, marginTop: -2 }} />
+        <Typography variant="h1">
+          <Box component="span" sx={{ display: 'inline-block' }}>
+            Resu<Box component="span" sx={{ color: 'primary.main' }}>Mate</Box>
           </Box>
-        </Box>
-      </Typography>
+        </Typography>
+      </Box>
       <Typography
         variant="h5"
         sx={{
