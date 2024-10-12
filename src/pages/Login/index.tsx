@@ -88,7 +88,7 @@ const Login = () => {
             display: 'flex',
             justifyContent: 'center',
             width: '100%',
-            mt: 2
+            mt: 2,
           }}
         >
           <Button variant="contained" color="primary" onClick={handleLogin}>
@@ -109,7 +109,6 @@ const Login = () => {
           </Button>
         </Typography>
       </Box>
-
     </Box>
   )
 }
