@@ -27,3 +27,37 @@ export const experience = Object.freeze([
   '10-15 years',
   '15+ years',
 ])
+
+export const softSkills = [
+  'Communication',
+  'Teamwork',
+  'Problem Solving',
+  'Adaptability',
+  'Time Management',
+  'Work Ethic',
+]
+
+export const hardSkills = [
+  'JavaScript',
+  'Python',
+  'Java',
+  'C#',
+  'C++',
+  'C',
+  'Go',
+  'Ruby',
+  'PHP',
+  'Swift',
+  'Kotlin',
+  'TypeScript',
+  'SQL',
+  'NoSQL',
+  'Docker',
+  'Kubernetes',
+  'AWS',
+  'Azure',
+  'Google Cloud',
+  'Linux',
+  'Windows',
+  'MacOS',
+]
