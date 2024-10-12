@@ -1,6 +1,7 @@
 import { ChangeEvent, memo, useCallback } from 'react'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { useLoginState } from './loginState'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const loginState = useLoginState()
@@ -26,6 +27,12 @@ const Login = () => {
   const handleLogin = () => {
     // TODO: Implement login logic
   }
+
+  const navigate = useNavigate()
+
+  const handleSignUp = useCallback(() => {
+    navigate('/auth/create-account')
+  }, [navigate])
 
   return (
     <Box
@@ -89,6 +96,20 @@ const Login = () => {
           </Button>
         </Box>
       </Box>
+      <Box sx={{ mt: 2, textAlign: 'center' }}>
+        <Typography variant="body2">
+          Don't have an account?{' '}
+          <Button
+            variant="text"
+            color="primary"
+            onClick={handleSignUp}
+            sx={{ textTransform: 'none' }}
+          >
+            Sign up
+          </Button>
+        </Typography>
+      </Box>
+
     </Box>
   )
 }

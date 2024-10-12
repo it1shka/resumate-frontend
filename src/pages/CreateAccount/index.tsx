@@ -17,6 +17,7 @@ import {
   useSkillsState,
 } from './formState'
 import SkillsInformation from './steps/SkillsInformation'
+import { useNavigate } from 'react-router-dom'
 
 type FormSchema = Readonly<
   Array<{
@@ -87,6 +88,12 @@ const CreateAccount = () => {
     skillsState,
   ])
 
+  const navigate = useNavigate()
+
+  const handleLogin = useCallback(() => {
+    navigate('/auth/login')
+  }, [navigate])
+
   return (
     <Box
       sx={{
@@ -137,6 +144,19 @@ const CreateAccount = () => {
           >
             {isLastStep ? "Let's go!" : 'Next'}
           </Button>
+        </Box>
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography variant="body2">
+            Already have an account?{' '}
+            <Button
+              variant="text"
+              color="primary"
+              onClick={handleLogin}
+              sx={{ textTransform: 'none' }}
+            >
+              Log in
+            </Button>
+          </Typography>
         </Box>
       </Box>
     </Box>
