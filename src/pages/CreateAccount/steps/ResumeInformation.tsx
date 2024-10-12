@@ -1,6 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material'
 import { memo, useCallback, ChangeEvent } from 'react'
-import { education, experience } from '../configuration'
+import { education, experience, locations } from '../../configuration'
 import { useResumeState } from '../formState'
 
 const ResumeInformation = () => {
@@ -21,8 +21,8 @@ const ResumeInformation = () => {
   )
 
   const handleLocationChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      resumeState.setLocation(event.target.value)
+    (_: any, newValue: string | null) => {
+      resumeState.setLocation(newValue ?? undefined)
     },
     [resumeState],
   )
@@ -57,11 +57,14 @@ const ResumeInformation = () => {
         value={resumeState.email ?? ''}
         onChange={handleEmailChange}
       />
-      <TextField
-        label="Location"
+      <Autocomplete
+        options={locations}
+        renderInput={params => (
+          <TextField {...params} label="Location" fullWidth margin="normal" />
+        )}
         fullWidth
-        margin="normal"
-        value={resumeState.location ?? ''}
+        freeSolo
+        value={resumeState.location ?? null}
         onChange={handleLocationChange}
       />
       <Autocomplete

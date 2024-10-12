@@ -6,6 +6,7 @@ import Search from './pages/Search'
 import Main from './pages/Main'
 import Login from './pages/Login'
 import CreateAccount from './pages/CreateAccount'
+import Profile from './pages/Profile'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/search',
     element: <Search />,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
   },
 ])
 

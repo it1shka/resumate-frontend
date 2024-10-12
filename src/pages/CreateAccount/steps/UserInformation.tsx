@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from '@mui/material'
 import { ChangeEvent, memo, SyntheticEvent, useCallback } from 'react'
 import { usePersonalState } from '../formState'
-import { roles } from '../configuration'
+import { roles } from '../../configuration'
 
 const UserInformation = () => {
   const personalState = usePersonalState()

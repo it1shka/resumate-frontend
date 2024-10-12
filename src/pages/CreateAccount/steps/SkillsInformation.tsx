@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { useSkillsState } from '../formState'
 import ListInput from '../../../components/ListInput'
 import { Typography } from '@mui/material'
-import { hardSkills, softSkills } from '../configuration'
+import { hardSkills, softSkills } from '../../configuration'
 
 const SkillsInformation = () => {
   const { soft, hard, setSoftSkill, setHardSkill } = useSkillsState()
