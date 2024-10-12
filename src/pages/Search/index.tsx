@@ -32,12 +32,12 @@ const supportedDomains: SupportedDomains = Object.freeze([
   },
   {
     domain: 'justjoin.it',
-    name: 'Just Join It',
+    name: 'JustJoin.It',
     icon: justJoinItIcon,
   },
   {
     domain: 'bulldogjob.com',
-    name: 'Bull Dog Job',
+    name: 'BullDogJob',
     icon: bullDogJobIcon,
   },
 ])
@@ -135,6 +135,21 @@ const Search = () => {
             </Box>
           ))}
         </Box>
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              color: search.length === 0 ? 'text.secondary' :
+                     !currentDomain && search.length > 0 ? 'error.main' :
+                     'success.main',
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}
+          >
+            {search.length === 0 && 'Enter a link to start'}
+            {!currentDomain && search.length > 0 && 'Unsupported website'}
+            {currentDomain && 'You are ready to go!'}
+          </Typography>
       </Box>
 
     </Box>

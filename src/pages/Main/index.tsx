@@ -1,4 +1,4 @@
-import { Box, Button, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
