@@ -6,6 +6,7 @@ import Search from './pages/Search'
 import Main from './pages/Main'
 import Login from './pages/Login'
 import CreateAccount from './pages/CreateAccount'
+import NotificationsManager from './components/NotificationManager'
 
 const router = createBrowserRouter([
   {
@@ -28,11 +29,12 @@ const router = createBrowserRouter([
   {
     path: '/search',
     element: <Search />,
-  },
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <NotificationsManager/>
     <RouterProvider router={router} />
   </StrictMode>,
 )
