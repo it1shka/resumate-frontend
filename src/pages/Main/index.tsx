@@ -24,11 +24,27 @@ const Main = () => {
         height: '100vh',
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, animation: 'fadeIn 0.5s ease-in-out', mb: 3 }}>
-        <Box component="img" src={logo} alt="ResuMate Logo" sx={{ width: 100, height: 100, marginTop: -2 }} />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          animation: 'fadeIn 0.5s ease-in-out',
+          mb: 3,
+        }}
+      >
+        <Box
+          component="img"
+          src={logo}
+          alt="ResuMate Logo"
+          sx={{ width: 100, height: 100, marginTop: -2 }}
+        />
         <Typography variant="h1">
           <Box component="span" sx={{ display: 'inline-block' }}>
-            Resu<Box component="span" sx={{ color: 'primary.main' }}>Mate</Box>
+            Resu
+            <Box component="span" sx={{ color: 'primary.main' }}>
+              Mate
+            </Box>
           </Box>
         </Typography>
       </Box>
