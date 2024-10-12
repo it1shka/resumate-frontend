@@ -7,6 +7,7 @@ import Main from './pages/Main'
 import Login from './pages/Login'
 import CreateAccount from './pages/CreateAccount'
 import Profile from './pages/Profile'
+import NotificationsManager from './components/NotificationManager'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <NotificationsManager/>
     <RouterProvider router={router} />
   </StrictMode>,
 )
