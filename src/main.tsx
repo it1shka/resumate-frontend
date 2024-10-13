@@ -9,6 +9,7 @@ import CreateAccount from './pages/CreateAccount'
 import Profile from './pages/Profile'
 import NotificationsManager from './components/NotificationManager'
 import NotFound from './pages/NotFound'
+import AboutUs from './pages/AboutUs'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile />,
+  },
+  {
+    path: "/about",
+    element: <AboutUs />,
   },
   {
     path: '*',
