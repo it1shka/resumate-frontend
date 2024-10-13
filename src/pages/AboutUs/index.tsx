@@ -46,7 +46,14 @@ const AboutUs = () => {
         }}
       />
 
-      <Typography variant="h3" sx={{ mt: 4 }}>
+      <Typography variant="h3" sx={{ 
+        mt: 4,
+        animation: 'fadeIn 0.5s ease-in-out',
+        animationDelay: '0.3s',
+        opacity: 0,
+          animationFillMode: 'forwards',
+        }}
+      >
         Resu
         <Typography
           variant="h3"
@@ -57,23 +64,40 @@ const AboutUs = () => {
         </Typography>
       </Typography>
 
-      <Typography variant="h5">Bringing AI to the Polish job market</Typography>
+      <Typography variant="h5" sx={{ 
+        animation: 'fadeIn 0.5s ease-in-out',
+        animationDelay: '0.6s',
+        opacity: 0,
+        animationFillMode: 'forwards',
+      }}>
+        Bringing AI to the Polish job market
+      </Typography>
 
       <Button
         variant="outlined"
         color="primary"
-        sx={{ mt: 3, mb: 10 }}
+        sx={{
+          mt: 3,
+          mb: 10,
+          animation: 'fadeIn 0.5s ease-in-out',
+          animationDelay: '0.9s',
+          opacity: 0,
+          animationFillMode: 'forwards',
+        }}
         onClick={handleGetStarted}
       >
         Get Started
       </Button>
-
       {photos.map((photo, index) => (
         <Box
           key={index}
           sx={{
             display: 'flex',
             flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
+            animation: 'fadeIn 0.5s ease-in-out',
+            animationDelay: `${1.2 + index * 0.3}s`,
+            opacity: 0,
+            animationFillMode: 'forwards',
           }}
         >
           <Box sx={{ flex: 1, display: 'flex', p: 4 }}>
