@@ -17,6 +17,7 @@ import useSearchState from './searchState'
 import TemplateSidebar from './TemplateSidebar'
 import useAuthCallback from '../../components/Authentication/useAuthCallback'
 import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import FsLightbox from 'fslightbox-react'
 
 type SupportedDomains = Readonly<
   Array<{
@@ -143,6 +144,13 @@ const Search = () => {
       window.open(resume, '_blank')
     }
   }, [resume])
+
+  const [showLightbox, setShowLightbox] = useState(false)
+  const handleToggleLightbox = useCallback(() => {
+    setShowLightbox(prev => !prev)
+  }, [])
+
+  console.log(resume)
 
   return (
     <>
@@ -279,13 +287,28 @@ const Search = () => {
             <CircularProgress sx={{ marginTop: 2 }} />
           )}
           {resume && (
+            <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
               variant="contained"
-              sx={{ marginTop: 2 }}
+              sx={{ marginTop: 2, marginRight: 1 }}
               onClick={handleGetResume}
             >
               Get Resume
             </Button>
+            <Tooltip title="Opens Lightbox">
+              <Button
+                variant="contained"
+                sx={{ marginTop: 2 }}
+                onClick={handleToggleLightbox}
+                >
+                  View Resume
+                </Button>
+              </Tooltip>
+              <FsLightbox
+                toggler={showLightbox}
+                sources={[resume]}
+              />
+            </Box>
           )}
         </Box>
       </Box>
