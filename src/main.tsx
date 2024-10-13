@@ -9,6 +9,7 @@ import CreateAccount from './pages/CreateAccount'
 import Profile from './pages/Profile'
 import NotificationsManager from './components/NotificationManager'
 import NotFound from './pages/NotFound'
+import AboutUs from './pages/AboutUs'
 import PublicRoute from './components/Authentication/PublicRoute'
 import ProtectedRoute from './components/Authentication/ProtectedRoute'
 
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         <Profile />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/about",
+    element: <AboutUs />,
   },
   {
     path: '*',

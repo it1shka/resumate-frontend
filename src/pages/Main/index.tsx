@@ -16,6 +16,11 @@ const Main = () => {
     navigate('/auth/login')
   }, [navigate])
 
+
+  const handleAbout = useCallback(() => { 
+    navigate('/about')
+  }, [navigate])
+
   const handleSearch = useCallback(() => {
     navigate('/search')
   }, [navigate])
@@ -127,6 +132,22 @@ const Main = () => {
             </Button>
           </>
         )}
+      </Box>
+
+      <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAbout}
+          sx={{
+            animation: 'fadeIn 0.5s ease-in-out 1.2s',
+            opacity: 0,
+            animationFillMode: 'forwards',
+            minWidth: '191px'
+          }}
+        >
+          About
+        </Button>
       </Box>
     </Box>
   )
