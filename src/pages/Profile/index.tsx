@@ -9,11 +9,14 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import LeftPart from './LeftPart'
 import RightPart from './RightPart'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate } from 'react-router-dom'
+import useAuthFetch from '../../components/Authentication/useAuthFetch'
+import { useAuthState } from '../../components/Authentication/authState'
+import useProfileState from './profileState'
 
 enum DialogAction {
   Reset = 'reset',
@@ -21,6 +24,20 @@ enum DialogAction {
 }
 
 const Profile = () => {
+  const { userId, logout } = useAuthState()
+
+  const { data, pending, error } = useAuthFetch({ 
+    url: `http://localhost:8080/api/user?username=${userId}`,
+    method: 'GET',
+  })
+
+  const { setAll } = useProfileState()
+
+  useEffect(() => {
+    if (error || pending) return
+    setAll(data)
+  }, [data, error, pending, setAll])
+
   const [dialogState, setDialogState] = useState<{
     open: boolean
     action: DialogAction | null
@@ -45,11 +62,11 @@ const Profile = () => {
         // Perform reset action here
         break
       case DialogAction.Logout:
-        // Perform logout action here
+        logout()
         break
     }
     handleDialogClose()
-  }, [dialogState.action, handleDialogClose])
+  }, [dialogState.action, handleDialogClose, logout])
 
   const navigate = useNavigate()
   const handleBackToSearch = useCallback(() => {

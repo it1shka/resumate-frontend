@@ -51,7 +51,7 @@ const Login = () => {
         throw new Error(message)
       }
       const { token } = await response.json()
-      authenticate(token)
+      authenticate(token, loginState.username)
       navigate('/search')
       pushNotification({
         message: 'Ready to rock!',
