@@ -16,8 +16,7 @@ const Main = () => {
     navigate('/auth/login')
   }, [navigate])
 
-
-  const handleAbout = useCallback(() => { 
+  const handleAbout = useCallback(() => {
     navigate('/about')
   }, [navigate])
 
@@ -134,16 +133,17 @@ const Main = () => {
         )}
       </Box>
 
-      <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
+      <Box sx={{ position: 'fixed', bottom: 8, right: 8 }}>
         <Button
-          variant="contained"
+          variant="text"
           color="primary"
           onClick={handleAbout}
+          size="small"
           sx={{
             animation: 'fadeIn 0.5s ease-in-out 1.2s',
             opacity: 0,
             animationFillMode: 'forwards',
-            minWidth: '191px'
+            minWidth: 'auto',
           }}
         >
           About
