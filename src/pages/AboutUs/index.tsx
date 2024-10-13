@@ -2,6 +2,26 @@ import { Box, Divider, Link, Typography } from "@mui/material";
 import RegistrationImage from "../../assets/registration.png"
 import JobSearch from "../../assets/job_search.png"
 
+
+const photos = [
+    {
+        src : RegistrationImage,
+        header: "Step 1: Credentials",
+        text: "Provide your credentials to get started"
+    },
+    {
+        src : JobSearch,
+        header: "Step 2: Past job",
+        text: "And AI will generate the best CV for you"
+    },
+    {
+        src : RegistrationImage,
+        header: "Step 3: Download CV",
+        text: "Choosing the template you like"
+    },
+    {}
+]
+
 const AboutUs = () => {
     return (
         <Box
@@ -36,82 +56,66 @@ const AboutUs = () => {
             >
                 Bringing AI to the Polish job market
             </Typography>
+            
+            {photos.map((val, index) => (<>{index % 2 == 0 ?
+                <Box display={"flex"} flexDirection={"row"} sx={{
+                    animation: 'fadeIn 0.5s ease-in-out 0.6s',
+                    animationFillMode: 'forwards',
+                    opacity: 0,
+                }}>
+                    {/* {index % 2 == 0 ?
+                    
+                    } */}
+                    <Box flex={1} display={"flex"} sx={{
+                        animation: `fadeIn 0.5s ease-in-out ${0.3 * index * 2}s`,
+                        animationFillMode: 'forwards',
+                        opacity: 0,
+                    }}>
+                        <img width={"100%"} src={val.src}/>
+                    </Box>
+                    <Divider orientation={"vertical"} flexItem sx={{margin: "0 30px"}}/>
+                    <Box flex={1} display={"flex"} flexDirection={"column"} gap={1} sx={{
+                        animation: `fadeIn 0.5s ease-in-out ${0.3 * 2 * index + 1}s`,
+                        animationFillMode: 'forwards',
+                        opacity: 0,
+                    }}>
+                        <Typography variant="h4">
+                            {val.header}
+                        </Typography>
+                        <Typography variant="h6">
+                            {val.text}
+                        </Typography>
+                    </Box>
+                </Box>
+                :
+                <Box display={"flex"} flexDirection={"row"}>
+             
+                    
+                    <Box flex={1} display={"flex"} flexDirection={"column"} gap={1} sx={{
+                        animation: `fadeIn 0.5s ease-in-out ${0.3 * index * 2 + 1}s`,
+                        animationFillMode: 'forwards',
+                        opacity: 0,
+                    }}>
+                        <Typography variant="h4">
+                            {val.header}
+                        </Typography>
+                        <Typography variant="h6">
+                            {val.text}
+                        </Typography>
+                    </Box>
+                    <Divider orientation={"vertical"} flexItem sx={{margin: "0 30px"}}/>
 
+                    <Box flex={1} display={"flex"} sx={{
+                        animation: `fadeIn 0.5s ease-in-out ${0.3 * index * 2 + 1}s`,
+                        animationFillMode: 'forwards',
+                        opacity: 0,
+                    }}>
+                        <img width={"100%"} src={val.src}/>
+                    </Box>
+                </Box>
+            }</>))}
 
-            <Box display={"flex"} flexDirection={"row"} sx={{
-                animation: 'fadeIn 0.5s ease-in-out 0.6s',
-                animationFillMode: 'forwards',
-                opacity: 0,
-            }}>
-                <Box flex={1} display={"flex"} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 0.9s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <img width={"100%"} src={RegistrationImage}/>
-                </Box>
-                <Divider orientation={"vertical"} flexItem sx={{margin: "0 30px"}}/>
-                <Box flex={1} display={"flex"} flexDirection={"column"} gap={1} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 1.2s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <Typography variant="h4">
-                        Step 1: Credentials
-                    </Typography>
-                    <Typography variant="h6">
-                        Provide your credentials to get started
-                    </Typography>
-                </Box>
-            </Box>
-
-            <Box display={"flex"} flexDirection={"row"}>
-                
-               
-                <Box flex={1} display={"flex"} alignItems={"end"} justifyContent={"center"} flexDirection={"column"} gap={1} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 1.8s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <Typography variant="h4">
-                        Step 2: Past job
-                    </Typography>
-                    <Typography variant="h6">
-                        And AI will generate the best CV for you
-                    </Typography>
-                </Box>
-                <Divider orientation={"vertical"} flexItem sx={{margin: "0 30px"}}/>
-                <Box flex={1} display={"flex"} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 1.5s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <img width={"100%"} src={JobSearch}/>
-                </Box>
-            </Box>
-
-            <Box display={"flex"} flexDirection={"row"} mb={10}>
-                <Box flex={1} display={"flex"} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 2.1s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <img width={"100%"} src={RegistrationImage}/>
-                </Box>
-                <Divider orientation={"vertical"} flexItem sx={{margin: "0 30px"}}/>
-                <Box flex={1} display={"flex"} flexDirection={"column"} gap={1} justifyContent={"end"} sx={{
-                    animation: 'fadeIn 0.5s ease-in-out 2.4s',
-                    animationFillMode: 'forwards',
-                    opacity: 0,
-                }}>
-                    <Typography variant="h4">
-                        Step 3: Download CV
-                    </Typography>
-                    <Typography variant="h6">
-                        Choosing the template you like
-                    </Typography>
-                </Box>
-            </Box>
+         
 
 
         </Box>
