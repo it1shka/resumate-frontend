@@ -10,6 +10,7 @@ export type AuthState = {
   setConfirmPassword: (newConfirmPassword: string) => void
 
   isComplete: () => boolean
+  clear: () => void
 }
 
 export const useAuthState = create<AuthState>((set, get) => ({
@@ -42,25 +43,46 @@ export const useAuthState = create<AuthState>((set, get) => ({
       /[^A-Za-z0-9]/.test(password)
     )
   },
+
+  clear: () => {
+    set({ username: '', password: '', confirmPassword: '' })
+  },
 }))
 
 export type PersonalState = {
+  firstName?: string
+  lastName?: string
   role?: string
   description?: string
 
+  setFirstName: (newFirstName?: string) => void
+  setLastName: (newLastName?: string) => void
   setRole: (newRole?: string) => void
   setDescription: (newDescription?: string) => void
+  clear: () => void
 }
 
 export const usePersonalState = create<PersonalState>(set => ({
+  firstName: undefined,
+  lastName: undefined,
   role: undefined,
   description: undefined,
 
+  setFirstName: (newFirstName?: string) => {
+    set(prev => ({ ...prev, firstName: newFirstName }))
+  },
+  setLastName: (newLastName?: string) => {
+    set(prev => ({ ...prev, lastName: newLastName }))
+  },
   setRole: (newRole?: string) => {
     set(prev => ({ ...prev, role: newRole }))
   },
   setDescription: (newDescription?: string) => {
     set(prev => ({ ...prev, description: newDescription }))
+  },
+
+  clear: () => {
+    set({ firstName: undefined, lastName: undefined, role: undefined, description: undefined })
   },
 }))
 
@@ -78,6 +100,7 @@ export type ResumeState = {
   setEducation: (newEducation?: string) => void
 
   isComplete: () => boolean
+  clear: () => void
 }
 
 export const useResumeState = create<ResumeState>((set, get) => ({
@@ -112,6 +135,10 @@ export const useResumeState = create<ResumeState>((set, get) => ({
       !email || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)
     )
   },
+
+  clear: () => {
+    set({ phone: undefined, email: undefined, location: undefined, experience: undefined, education: undefined })
+  },
 }))
 
 export type SkillsState = {
@@ -120,6 +147,7 @@ export type SkillsState = {
 
   setSoftSkill: (newSoftSkill: string[]) => void
   setHardSkill: (newHardSkill: string[]) => void
+  clear: () => void
 }
 
 export const useSkillsState = create<SkillsState>(set => ({
@@ -131,5 +159,9 @@ export const useSkillsState = create<SkillsState>(set => ({
   },
   setHardSkill: (newHardSkill: string[]) => {
     set(prev => ({ ...prev, hard: newHardSkill }))
+  },
+
+  clear: () => {
+    set({ soft: [], hard: [] })
   },
 }))

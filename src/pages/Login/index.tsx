@@ -1,10 +1,12 @@
-import { ChangeEvent, memo, useCallback } from 'react'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { ChangeEvent, memo, useCallback, useState } from 'react'
+import { Box, Button, TextField, Typography, Skeleton } from '@mui/material'
 import { useLoginState } from './loginState'
 import { useNavigate } from 'react-router-dom'
+import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
 
 const Login = () => {
   const loginState = useLoginState()
+  const [isLoading, setIsLoading] = useState(false)
 
   type InputChange = ChangeEvent<HTMLInputElement>
 
@@ -24,11 +26,48 @@ const Login = () => {
     [loginState],
   )
 
-  const handleLogin = () => {
-    // TODO: Implement login logic
-  }
-
+  const { pushNotification } = useNotifications()
   const navigate = useNavigate()
+
+  const handleLogin = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const body = JSON.stringify({
+        username: loginState.username,
+        password: loginState.password,
+      });
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body,
+      })
+      if (!response.ok) {
+        const error = await response.json()
+        const message = error.message ?? 'Failed to login'
+        throw new Error(message)
+      }
+      // TODO: save token into storage
+      navigate('/search')
+      pushNotification({
+        message: 'Ready to rock!',
+        notificationType: NotificationType.SUCCESS,
+        timeout_ms: 2500,
+        title: 'Success',
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      pushNotification({
+        message,
+        notificationType: NotificationType.ERROR,
+        timeout_ms: 2500,
+        title: 'Error',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [loginState, pushNotification, navigate])
 
   const handleSignUp = useCallback(() => {
     navigate('/auth/create-account')
@@ -58,30 +97,39 @@ const Login = () => {
           Login
         </Typography>
 
-        <TextField
-          value={loginState.username}
-          onChange={handleUsername}
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-        />
-        <TextField
-          value={loginState.password}
-          onChange={handlePassword}
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="new-password"
-        />
+        {isLoading ? (
+          <>
+            <Skeleton variant="rectangular" width="100%" height={56} sx={{ mb: 2 }} />
+            <Skeleton variant="rectangular" width="100%" height={56} sx={{ mb: 2 }} />
+          </>
+        ) : (
+          <>
+            <TextField
+              value={loginState.username}
+              onChange={handleUsername}
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              value={loginState.password}
+              onChange={handlePassword}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+            />
+          </>
+        )}
 
         <Box
           sx={{
@@ -91,22 +139,30 @@ const Login = () => {
             mt: 2,
           }}
         >
-          <Button variant="contained" color="primary" onClick={handleLogin}>
-            Login
-          </Button>
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={85} height={36} />
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleLogin}>
+              Login
+            </Button>
+          )}
         </Box>
       </Box>
       <Box sx={{ mt: 2, textAlign: 'center' }}>
         <Typography variant="body2">
           Don't have an account?{' '}
-          <Button
-            variant="text"
-            color="primary"
-            onClick={handleSignUp}
-            sx={{ textTransform: 'none' }}
-          >
-            Sign up
-          </Button>
+          {isLoading ? (
+            <Skeleton variant="text" width={50} sx={{ display: 'inline-block' }} />
+          ) : (
+            <Button
+              variant="text"
+              color="primary"
+              onClick={handleSignUp}
+              sx={{ textTransform: 'none' }}
+            >
+              Sign up
+            </Button>
+          )}
         </Typography>
       </Box>
     </Box>
