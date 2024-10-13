@@ -17,6 +17,7 @@ const RightPart = () => {
     location,
     hardSkills,
     softSkills,
+    setField,
   } = useProfileState()
 
   return (
@@ -43,6 +44,7 @@ const RightPart = () => {
           freeSolo
           options={educationOptions}
           value={profileEducation}
+          onChange={(_, value) => setField('education', value || undefined)}
           renderInput={params => <TextField {...params} label="Education" />}
           sx={{ width: '100%' }}
         />
@@ -50,6 +52,7 @@ const RightPart = () => {
           freeSolo
           options={experienceOptions}
           value={profileExperience}
+          onChange={(_, value) => setField('experience', value || undefined)}
           renderInput={params => <TextField {...params} label="Experience" />}
           sx={{ width: '100%' }}
         />
@@ -57,6 +60,7 @@ const RightPart = () => {
           freeSolo
           options={locations}
           value={location}
+          onChange={(_, value) => setField('location', value || undefined)}
           renderInput={params => <TextField {...params} label="Location" />}
           sx={{ width: '100%' }}
         />
@@ -89,8 +93,10 @@ const RightPart = () => {
           >
             <BuildIcon sx={{ mr: 1 }} /> Hard Skills
           </Typography>
-          {/* TODO: Add onChange */}
-          <ListInput value={hardSkills} onChange={() => {}} />
+          <ListInput
+            value={hardSkills}
+            onChange={value => setField('hardSkills', value)}
+          />
         </Box>
         <Box sx={{ flex: 1, p: 2 }}>
           <Typography
@@ -109,8 +115,10 @@ const RightPart = () => {
           >
             <EmojiPeopleIcon sx={{ mr: 1 }} /> Soft Skills
           </Typography>
-          {/* TODO: Add onChange */}
-          <ListInput value={softSkills} onChange={() => {}} />
+          <ListInput
+            value={softSkills}
+            onChange={value => setField('softSkills', value)}
+          />
         </Box>
       </Box>
     </Box>

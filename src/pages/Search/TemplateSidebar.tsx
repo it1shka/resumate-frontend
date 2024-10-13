@@ -1,34 +1,51 @@
-import { Box, Icon, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material'
+import {
+  Box,
+  Icon,
+  IconButton,
+  List,
+  ListItemButton,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import { memo, useCallback, useState } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import useSearchState from './searchState'
 import DescriptionIcon from '@mui/icons-material/Description'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import WorkIcon from '@mui/icons-material/Work'
+import { useNavigate } from 'react-router-dom'
 
-type Templates = Readonly<Array<{
-  id: string
-  name: string
-  icon: string
-}>>
+type Templates = Readonly<
+  Array<{
+    id: string
+    name: string
+    icon: string
+  }>
+>
 
 const templates: Templates = Object.freeze([
   {
-    id: 'resume1',
+    id: 'RESUME1',
     name: 'Standard Template',
     icon: 'standard',
   },
   {
-    id: 'resume2',
+    id: 'RESUME2',
     name: 'Advanced Template',
     icon: 'advanced',
   },
   {
-    id: 'resume3',
+    id: 'RESUME3',
     name: 'Professional Template',
     icon: 'professional',
-  }
+  },
+  {
+    id: 'RESUME4',
+    name: 'Creative Template',
+    icon: 'advanced',
+  },
 ])
 
 const iconMapping: Record<string, React.ElementType> = {
@@ -39,10 +56,15 @@ const iconMapping: Record<string, React.ElementType> = {
 
 const TemplateSidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
+  const navigate = useNavigate()
 
   const handleToggleSidebar = useCallback(() => {
-    setIsOpen((prev) => !prev)
+    setIsOpen(prev => !prev)
   }, [])
+
+  const handleNavigateToProfile = useCallback(() => {
+    navigate('/profile')
+  }, [navigate])
 
   const { template, setTemplate } = useSearchState()
 
@@ -65,11 +87,16 @@ const TemplateSidebar = () => {
           left: -48,
           top: 16,
           zIndex: 1001,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
         }}
       >
-        <Tooltip title={isOpen ? "Close template panel" : "Open template panel"}>
+        <Tooltip
+          title={isOpen ? 'Close template panel' : 'Open template panel'}
+        >
           <IconButton
-            aria-label={isOpen ? "close sidebar" : "open sidebar"}
+            aria-label={isOpen ? 'close sidebar' : 'open sidebar'}
             onClick={handleToggleSidebar}
             sx={{
               backgroundColor: 'background.paper',
@@ -82,9 +109,26 @@ const TemplateSidebar = () => {
             {isOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </Tooltip>
+        <Tooltip title="Go to profile">
+          <IconButton
+            aria-label="go to profile"
+            onClick={handleNavigateToProfile}
+            sx={{
+              backgroundColor: 'background.paper',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+              boxShadow: 1,
+            }}
+          >
+            <AccountCircleIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box sx={{ color: 'white', p: 2 }}>
-        <Typography variant="h6" sx={{ color: 'inherit', textAlign: 'end' }}>Templates</Typography>
+        <Typography variant="h6" sx={{ color: 'inherit', textAlign: 'end' }}>
+          Templates
+        </Typography>
         <List>
           {templates.map(({ id, name, icon }) => (
             <ListItemButton
@@ -118,7 +162,10 @@ const TemplateSidebar = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Icon component={iconMapping[icon]} sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+                <Icon
+                  component={iconMapping[icon]}
+                  sx={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                />
               </Box>
               <Typography sx={{ color: 'white' }}>{name}</Typography>
             </ListItemButton>

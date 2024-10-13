@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  CircularProgress,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import pracujPlIcon from '../../assets/pracujpl.png'
@@ -14,6 +15,9 @@ import justJoinItIcon from '../../assets/justjoinit.png'
 import bullDogJobIcon from '../../assets/bulldogjob.png'
 import useSearchState from './searchState'
 import TemplateSidebar from './TemplateSidebar'
+import useAuthCallback from '../../components/Authentication/useAuthCallback'
+import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import FsLightbox from 'fslightbox-react'
 
 type SupportedDomains = Readonly<
   Array<{
@@ -52,7 +56,7 @@ const supportedDomains: SupportedDomains = Object.freeze([
 ])
 
 const Search = () => {
-  const { search, setSearch } = useSearchState()
+  const { search, template, setSearch } = useSearchState()
 
   const currentDomain = useMemo(() => {
     try {
@@ -101,6 +105,53 @@ const Search = () => {
     window.open(link, '_blank')
   }, [currentDomain])
 
+  const createResume = useAuthCallback({
+    url: 'http://localhost:8080/api/processing/process',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: {
+      templateName: template ?? 'RESUME1',
+      url: search,
+    },
+    text: true,
+  })
+
+  const { pushNotification } = useNotifications()
+
+  const [pending, setPending] = useState(false)
+  const [resume, setResume] = useState<string | null>(null)
+
+  const handleCreateResume = useCallback(async () => {
+    try {
+    setPending(true)
+    const { data, error } = await createResume()
+    setPending(false)
+    if (error) {
+      pushNotification({ message: error, notificationType: NotificationType.ERROR, title: 'Error', timeout_ms: 2500 })
+    } else {
+        setResume(data)
+      }
+    } catch (error) {
+      setPending(false)
+      pushNotification({ message: 'An error occurred', notificationType: NotificationType.ERROR, title: 'Error', timeout_ms: 2500 })
+    }
+  }, [createResume, pushNotification])
+
+  const handleGetResume = useCallback(() => {
+    if (resume) {
+      window.open(resume, '_blank')
+    }
+  }, [resume])
+
+  const [showLightbox, setShowLightbox] = useState(false)
+  const handleToggleLightbox = useCallback(() => {
+    setShowLightbox(prev => !prev)
+  }, [])
+
+  console.log(resume)
+
   return (
     <>
       <Box
@@ -143,11 +194,12 @@ const Search = () => {
           />
           <Button
             variant="contained"
-            disabled={!currentDomain}
+            disabled={!isValidURL}
             sx={{
               borderRadius: '0 24px 24px 0',
               minWidth: '64px',
             }}
+            onClick={handleCreateResume}
           >
             Go!
           </Button>
@@ -231,6 +283,33 @@ const Search = () => {
           >
             {searchStatus}
           </Typography>
+          {pending && (
+            <CircularProgress sx={{ marginTop: 2 }} />
+          )}
+          {resume && (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="contained"
+              sx={{ marginTop: 2, marginRight: 1 }}
+              onClick={handleGetResume}
+            >
+              Get Resume
+            </Button>
+            <Tooltip title="Opens Lightbox">
+              <Button
+                variant="contained"
+                sx={{ marginTop: 2 }}
+                onClick={handleToggleLightbox}
+                >
+                  View Resume
+                </Button>
+              </Tooltip>
+              <FsLightbox
+                toggler={showLightbox}
+                sources={[resume]}
+              />
+            </Box>
+          )}
         </Box>
       </Box>
       <TemplateSidebar />
