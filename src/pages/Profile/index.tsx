@@ -51,7 +51,6 @@ const Profile = () => {
     handleDialogClose()
   }, [dialogState.action, handleDialogClose])
 
-
   const navigate = useNavigate()
   const handleBackToSearch = useCallback(() => {
     navigate('/search')
@@ -77,7 +76,6 @@ const Profile = () => {
             <ArrowBackIcon />
           </IconButton>
         </Tooltip>
-
       </Box>
       <LeftPart />
       <RightPart />
