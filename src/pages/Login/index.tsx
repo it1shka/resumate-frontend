@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography, Skeleton } from '@mui/material'
 import { useLoginState } from './loginState'
 import { useNavigate } from 'react-router-dom'
 import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import useAuthState from '../../components/Authentication/authState'
 
 const Login = () => {
   const loginState = useLoginState()
@@ -26,6 +27,7 @@ const Login = () => {
     [loginState],
   )
 
+  const { authenticate } = useAuthState()
   const { pushNotification } = useNotifications()
   const navigate = useNavigate()
 
@@ -48,7 +50,8 @@ const Login = () => {
         const message = error.message ?? 'Failed to login'
         throw new Error(message)
       }
-      // TODO: save token into storage
+      const { token } = await response.json()
+      authenticate(token)
       navigate('/search')
       pushNotification({
         message: 'Ready to rock!',
@@ -67,7 +70,7 @@ const Login = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [loginState, pushNotification, navigate])
+  }, [loginState, pushNotification, navigate, authenticate])
 
   const handleSignUp = useCallback(() => {
     navigate('/auth/create-account')
