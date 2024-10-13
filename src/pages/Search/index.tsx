@@ -18,6 +18,7 @@ import TemplateSidebar from './TemplateSidebar'
 import useAuthCallback from '../../components/Authentication/useAuthCallback'
 import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
 import FsLightbox from 'fslightbox-react'
+import WebPreview from './WebPreview'
 
 type SupportedDomains = Readonly<
   Array<{
@@ -313,6 +314,7 @@ const Search = () => {
         </Box>
       </Box>
       <TemplateSidebar />
+      <WebPreview />
     </>
   )
 }
