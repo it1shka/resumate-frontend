@@ -20,7 +20,10 @@ import {
 import SkillsInformation from './steps/SkillsInformation'
 import { useNavigate } from 'react-router-dom'
 import mergeTransform from './mergeState'
-import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../../components/NotificationManager/notificationsState'
 
 type FormSchema = Readonly<
   Array<{
@@ -92,7 +95,7 @@ const CreateAccount = () => {
 
   const handleSubmit = useCallback(() => {
     if (!isLastStep || !isStepValid) return
-    (async () => {
+    ;(async () => {
       setIsLoading(true)
       try {
         const mergedState = mergeTransform({
@@ -102,13 +105,16 @@ const CreateAccount = () => {
           skills: skillsState,
         })
         const body = JSON.stringify(mergedState)
-        const response = await fetch('http://localhost:8080/api/auth/register', {
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'http://localhost:8080/api/auth/register',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body,
           },
-          method: 'POST',
-          body,
-        })
+        )
         if (!response.ok) {
           const error = await response.json()
           const message = error.message ?? 'Failed to create account'
@@ -181,7 +187,12 @@ const CreateAccount = () => {
           ))}
         </Stepper>
         {isLoading ? (
-          <Skeleton variant="rectangular" width="100%" height={200} sx={{ my: 2 }} />
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={200}
+            sx={{ my: 2 }}
+          />
         ) : (
           formSchema[step].component
         )}
@@ -200,7 +211,11 @@ const CreateAccount = () => {
             </>
           ) : (
             <>
-              <Button variant="outlined" color="primary" onClick={handlePrevStep}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handlePrevStep}
+              >
                 Back
               </Button>
               <Button
@@ -218,7 +233,11 @@ const CreateAccount = () => {
           <Typography variant="body2">
             Already have an account?{' '}
             {isLoading ? (
-              <Skeleton variant="text" width={50} sx={{ display: 'inline-block' }} />
+              <Skeleton
+                variant="text"
+                width={50}
+                sx={{ display: 'inline-block' }}
+              />
             ) : (
               <Button
                 variant="text"

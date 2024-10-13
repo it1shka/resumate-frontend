@@ -93,7 +93,10 @@ const RightPart = () => {
           >
             <BuildIcon sx={{ mr: 1 }} /> Hard Skills
           </Typography>
-          <ListInput value={hardSkills} onChange={value => setField('hardSkills', value)} />
+          <ListInput
+            value={hardSkills}
+            onChange={value => setField('hardSkills', value)}
+          />
         </Box>
         <Box sx={{ flex: 1, p: 2 }}>
           <Typography
@@ -112,7 +115,10 @@ const RightPart = () => {
           >
             <EmojiPeopleIcon sx={{ mr: 1 }} /> Soft Skills
           </Typography>
-          <ListInput value={softSkills} onChange={value => setField('softSkills', value)} />
+          <ListInput
+            value={softSkills}
+            onChange={value => setField('softSkills', value)}
+          />
         </Box>
       </Box>
     </Box>

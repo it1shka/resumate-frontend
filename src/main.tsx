@@ -22,11 +22,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'create-account',
-        element: <PublicRoute><CreateAccount /></PublicRoute>,
+        element: (
+          <PublicRoute>
+            <CreateAccount />
+          </PublicRoute>
+        ),
       },
       {
         path: 'login',
-        element: <PublicRoute><Login /></PublicRoute>,
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        ),
       },
       {
         index: true,
@@ -36,11 +44,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/search',
-    element: <ProtectedRoute><Search /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <Search />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/profile',
-    element: <ProtectedRoute><Profile /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '*',

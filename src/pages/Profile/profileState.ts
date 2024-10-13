@@ -41,7 +41,7 @@ const useProfileState = create<ProfileStateFields & ProfileStateMethods>()(
     hardSkills: [],
 
     setField: (field, value) => set({ [field]: value }),
-    setAll: (data) => {
+    setAll: data => {
       if (typeof data === 'object' && data !== null) {
         const newState: Partial<ProfileStateFields> = {
           username: (data as any).username || '',
@@ -54,14 +54,14 @@ const useProfileState = create<ProfileStateFields & ProfileStateMethods>()(
           experience: (data as any).experience || undefined,
           education: (data as any).education || undefined,
         }
-        
+
         if ((data as any).skills) {
           const skills = (data as any).skills.split(';')
-          newState.softSkills = skills.filter((skill: string) => 
-            ['Adaptability'].includes(skill)
+          newState.softSkills = skills.filter((skill: string) =>
+            ['Adaptability'].includes(skill),
           )
-          newState.hardSkills = skills.filter((skill: string) => 
-            !['Adaptability'].includes(skill)
+          newState.hardSkills = skills.filter(
+            (skill: string) => !['Adaptability'].includes(skill),
           )
         }
 

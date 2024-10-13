@@ -2,7 +2,10 @@ import { ChangeEvent, memo, useCallback, useState } from 'react'
 import { Box, Button, TextField, Typography, Skeleton } from '@mui/material'
 import { useLoginState } from './loginState'
 import { useNavigate } from 'react-router-dom'
-import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../../components/NotificationManager/notificationsState'
 import useAuthState from '../../components/Authentication/authState'
 
 const Login = () => {
@@ -37,7 +40,7 @@ const Login = () => {
       const body = JSON.stringify({
         username: loginState.username,
         password: loginState.password,
-      });
+      })
       const response = await fetch('http://localhost:8080/api/auth/login', {
         headers: {
           'Content-Type': 'application/json',
@@ -102,8 +105,18 @@ const Login = () => {
 
         {isLoading ? (
           <>
-            <Skeleton variant="rectangular" width="100%" height={56} sx={{ mb: 2 }} />
-            <Skeleton variant="rectangular" width="100%" height={56} sx={{ mb: 2 }} />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={56}
+              sx={{ mb: 2 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={56}
+              sx={{ mb: 2 }}
+            />
           </>
         ) : (
           <>
@@ -155,7 +168,11 @@ const Login = () => {
         <Typography variant="body2">
           Don't have an account?{' '}
           {isLoading ? (
-            <Skeleton variant="text" width={50} sx={{ display: 'inline-block' }} />
+            <Skeleton
+              variant="text"
+              width={50}
+              sx={{ display: 'inline-block' }}
+            />
           ) : (
             <Button
               variant="text"

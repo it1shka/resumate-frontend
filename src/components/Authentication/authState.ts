@@ -1,5 +1,5 @@
-import { create } from "zustand"
-import { createJSONStorage, persist } from "zustand/middleware"
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type AuthState = {
   token: string | null
@@ -10,7 +10,7 @@ export type AuthState = {
 
 export const useAuthState = create<AuthState>()(
   persist(
-    (set) => ({
+    set => ({
       token: null,
       userId: null,
       authenticate: (token: string, userId: string) => {
@@ -25,9 +25,9 @@ export const useAuthState = create<AuthState>()(
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ token: state.token, userId: state.userId }),
-    }
-  )
+      partialize: state => ({ token: state.token, userId: state.userId }),
+    },
+  ),
 )
 
 export default useAuthState

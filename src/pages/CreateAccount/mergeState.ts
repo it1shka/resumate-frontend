@@ -1,4 +1,4 @@
-import { AuthState, PersonalState, ResumeState, SkillsState } from "./formState"
+import { AuthState, PersonalState, ResumeState, SkillsState } from './formState'
 
 type FormStates = {
   auth: AuthState
@@ -7,12 +7,7 @@ type FormStates = {
   skills: SkillsState
 }
 
-const mergeTransform = ({
-  auth,
-  personal,
-  resume,
-  skills,
-}: FormStates) => {
+const mergeTransform = ({ auth, personal, resume, skills }: FormStates) => {
   const { username, password } = auth
   const { firstName, lastName, role, description } = personal
   const { phone, email, education, experience } = resume

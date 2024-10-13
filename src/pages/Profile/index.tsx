@@ -18,7 +18,10 @@ import useAuthFetch from '../../components/Authentication/useAuthFetch'
 import { useAuthState } from '../../components/Authentication/authState'
 import useProfileState from './profileState'
 import useAuthCallback from '../../components/Authentication/useAuthCallback'
-import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../../components/NotificationManager/notificationsState'
 
 enum DialogAction {
   Reset = 'reset',
@@ -28,7 +31,7 @@ enum DialogAction {
 const Profile = () => {
   const { userId, logout } = useAuthState()
 
-  const { data, pending, error } = useAuthFetch({ 
+  const { data, pending, error } = useAuthFetch({
     url: `http://localhost:8080/api/user?username=${userId}`,
     method: 'GET',
   })
@@ -52,7 +55,9 @@ const Profile = () => {
       email: profile.email,
       experience: [{ content: profile.experience }],
       education: [{ content: profile.education }],
-      skills: [...profile.softSkills, ...profile.hardSkills].map(skill => ({ content: skill })),
+      skills: [...profile.softSkills, ...profile.hardSkills].map(skill => ({
+        content: skill,
+      })),
     }
   }, [profile, data])
 
@@ -158,7 +163,9 @@ const Profile = () => {
           gap: 1,
         }}
       >
-        <Button variant="contained" onClick={handleSave}>Save</Button>
+        <Button variant="contained" onClick={handleSave}>
+          Save
+        </Button>
         <Button
           variant="outlined"
           color="primary"

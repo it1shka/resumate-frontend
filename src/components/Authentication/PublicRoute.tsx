@@ -1,6 +1,6 @@
-import { memo } from "react"
-import useAuthState from "./authState"
-import { Navigate } from "react-router-dom"
+import { memo } from 'react'
+import useAuthState from './authState'
+import { Navigate } from 'react-router-dom'
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { token } = useAuthState()

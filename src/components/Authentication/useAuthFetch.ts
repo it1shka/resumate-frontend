@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react"
-import useAuthState from "./authState"
-import { NotificationType, useNotifications } from "../NotificationManager/notificationsState"
+import { useEffect, useState } from 'react'
+import useAuthState from './authState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../NotificationManager/notificationsState'
 
 type AuthProps = {
-  url: string,
-  method?: string,
-  body?: Record<string, unknown>,
-  headers?: Record<string, string>,
+  url: string
+  method?: string
+  body?: Record<string, unknown>
+  headers?: Record<string, string>
+  text?: boolean
 }
 
 const useAuthFetch = ({
@@ -14,6 +18,7 @@ const useAuthFetch = ({
   method = 'GET',
   body,
   headers,
+  text = false,
 }: AuthProps) => {
   const { token, logout } = useAuthState()
   const [data, setData] = useState<unknown | null>(null)
@@ -23,7 +28,7 @@ const useAuthFetch = ({
 
   useEffect(() => {
     if (!token) return
-    (async () => {
+    ;(async () => {
       setPending(true)
       try {
         const rawBody = body ? JSON.stringify(body) : undefined
@@ -41,10 +46,13 @@ const useAuthFetch = ({
           const message = error.message ?? 'Error while fetching from server'
           throw new Error(message)
         }
-        const data = await response.json()
+        const data = text ? await response.text() : await response.json()
         setData(data)
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Error while fetching from server'
+        const message =
+          error instanceof Error
+            ? error.message
+            : 'Error while fetching from server'
         pushNotification({
           message,
           notificationType: NotificationType.ERROR,
@@ -56,7 +64,7 @@ const useAuthFetch = ({
         setPending(false)
       }
     })()
-  }, [token, logout, url, method, body, headers, pushNotification])
+  }, [token, logout, url, method, body, headers, pushNotification, text])
 
   return { data, pending, error }
 }

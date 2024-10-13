@@ -82,7 +82,12 @@ export const usePersonalState = create<PersonalState>(set => ({
   },
 
   clear: () => {
-    set({ firstName: undefined, lastName: undefined, role: undefined, description: undefined })
+    set({
+      firstName: undefined,
+      lastName: undefined,
+      role: undefined,
+      description: undefined,
+    })
   },
 }))
 
@@ -137,7 +142,13 @@ export const useResumeState = create<ResumeState>((set, get) => ({
   },
 
   clear: () => {
-    set({ phone: undefined, email: undefined, location: undefined, experience: undefined, education: undefined })
+    set({
+      phone: undefined,
+      email: undefined,
+      location: undefined,
+      experience: undefined,
+      education: undefined,
+    })
   },
 }))
 
