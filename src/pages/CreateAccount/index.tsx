@@ -5,6 +5,7 @@ import {
   StepLabel,
   Stepper,
   Typography,
+  Skeleton,
 } from '@mui/material'
 import { memo, useCallback, useMemo, useState } from 'react'
 import AuthInformation from './steps/AuthInformation'
@@ -18,6 +19,11 @@ import {
 } from './formState'
 import SkillsInformation from './steps/SkillsInformation'
 import { useNavigate } from 'react-router-dom'
+import mergeTransform from './mergeState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../../components/NotificationManager/notificationsState'
 
 type FormSchema = Readonly<
   Array<{
@@ -47,11 +53,19 @@ const formSchema: FormSchema = Object.freeze([
 
 const CreateAccount = () => {
   const [step, setStep] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const authState = useAuthState()
   const personalState = usePersonalState()
   const resumeState = useResumeState()
   const skillsState = useSkillsState()
+
+  const handleClear = useCallback(() => {
+    authState.clear()
+    personalState.clear()
+    resumeState.clear()
+    skillsState.clear()
+  }, [authState, personalState, resumeState, skillsState])
 
   const isStepValid = useMemo(() => {
     switch (step) {
@@ -75,20 +89,68 @@ const CreateAccount = () => {
 
   const isLastStep = useMemo(() => step >= formSchema.length - 1, [step])
 
+  const navigate = useNavigate()
+
+  const { pushNotification } = useNotifications()
+
   const handleSubmit = useCallback(() => {
     if (!isLastStep || !isStepValid) return
-    // TODO: submit form
-    console.log(authState, personalState, resumeState, skillsState)
+    ;(async () => {
+      setIsLoading(true)
+      try {
+        const mergedState = mergeTransform({
+          auth: authState,
+          personal: personalState,
+          resume: resumeState,
+          skills: skillsState,
+        })
+        const body = JSON.stringify(mergedState)
+        const response = await fetch(
+          'http://localhost:8080/api/auth/register',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body,
+          },
+        )
+        if (!response.ok) {
+          const error = await response.json()
+          const message = error.message ?? 'Failed to create account'
+          throw new Error(message)
+        }
+        handleClear()
+        navigate('/auth/login')
+        pushNotification({
+          message: 'Success! Now, try to login:',
+          notificationType: NotificationType.SUCCESS,
+          timeout_ms: 2500,
+          title: 'Success',
+        })
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error'
+        pushNotification({
+          message,
+          notificationType: NotificationType.ERROR,
+          timeout_ms: 2500,
+          title: 'Error',
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    })()
   }, [
+    navigate,
+    handleClear,
     isLastStep,
     isStepValid,
     authState,
     personalState,
     resumeState,
     skillsState,
+    pushNotification,
   ])
-
-  const navigate = useNavigate()
 
   const handleLogin = useCallback(() => {
     navigate('/auth/login')
@@ -124,7 +186,16 @@ const CreateAccount = () => {
             </Step>
           ))}
         </Stepper>
-        {formSchema[step].component}
+        {isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={200}
+            sx={{ my: 2 }}
+          />
+        ) : (
+          formSchema[step].component
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -133,29 +204,50 @@ const CreateAccount = () => {
             width: '100%',
           }}
         >
-          <Button variant="outlined" color="primary" onClick={handlePrevStep}>
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={isLastStep ? handleSubmit : handleNextStep}
-            disabled={!isStepValid}
-          >
-            {isLastStep ? "Let's go!" : 'Next'}
-          </Button>
+          {isLoading ? (
+            <>
+              <Skeleton variant="rectangular" width={85} height={36} />
+              <Skeleton variant="rectangular" width={85} height={36} />
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handlePrevStep}
+              >
+                Back
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={isLastStep ? handleSubmit : handleNextStep}
+                disabled={!isStepValid}
+              >
+                {isLastStep ? "Let's go!" : 'Next'}
+              </Button>
+            </>
+          )}
         </Box>
         <Box sx={{ mt: 2, textAlign: 'center' }}>
           <Typography variant="body2">
             Already have an account?{' '}
-            <Button
-              variant="text"
-              color="primary"
-              onClick={handleLogin}
-              sx={{ textTransform: 'none' }}
-            >
-              Log in
-            </Button>
+            {isLoading ? (
+              <Skeleton
+                variant="text"
+                width={50}
+                sx={{ display: 'inline-block' }}
+              />
+            ) : (
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleLogin}
+                sx={{ textTransform: 'none' }}
+              >
+                Log in
+              </Button>
+            )}
           </Typography>
         </Box>
       </Box>

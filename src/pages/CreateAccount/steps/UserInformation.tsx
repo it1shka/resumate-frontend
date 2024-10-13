@@ -6,6 +6,20 @@ import { roles } from '../../configuration'
 const UserInformation = () => {
   const personalState = usePersonalState()
 
+  const handleFirstNameChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      personalState.setFirstName(event.target.value)
+    },
+    [personalState],
+  )
+
+  const handleLastNameChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      personalState.setLastName(event.target.value)
+    },
+    [personalState],
+  )
+
   const handleRoleChange = useCallback(
     (_: SyntheticEvent, newValue: string | null) => {
       personalState.setRole(newValue ?? undefined)
@@ -24,6 +38,20 @@ const UserInformation = () => {
 
   return (
     <>
+      <TextField
+        value={personalState.firstName ?? ''}
+        onChange={handleFirstNameChange}
+        label="First Name"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        value={personalState.lastName ?? ''}
+        onChange={handleLastNameChange}
+        label="Last Name"
+        fullWidth
+        margin="normal"
+      />
       <Autocomplete
         value={personalState.role ?? ''}
         options={roles}

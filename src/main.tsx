@@ -10,6 +10,8 @@ import Profile from './pages/Profile'
 import NotificationsManager from './components/NotificationManager'
 import NotFound from './pages/NotFound'
 import AboutUs from './pages/AboutUs'
+import PublicRoute from './components/Authentication/PublicRoute'
+import ProtectedRoute from './components/Authentication/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
@@ -21,21 +23,41 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'create-account',
-        element: <CreateAccount />,
+        element: (
+          <PublicRoute>
+            <CreateAccount />
+          </PublicRoute>
+        ),
       },
       {
         path: 'login',
-        element: <Login />,
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        ),
+      },
+      {
+        index: true,
+        element: <NotFound />,
       },
     ],
   },
   {
     path: '/search',
-    element: <Search />,
+    element: (
+      <ProtectedRoute>
+        <Search />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/profile',
-    element: <Profile />,
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/about",
