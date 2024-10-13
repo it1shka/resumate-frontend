@@ -2,10 +2,12 @@ import { Box, Icon, IconButton, List, ListItemButton, Tooltip, Typography } from
 import { memo, useCallback, useState } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import useSearchState from './searchState'
 import DescriptionIcon from '@mui/icons-material/Description'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import WorkIcon from '@mui/icons-material/Work'
+import { useNavigate } from 'react-router-dom'
 
 type Templates = Readonly<Array<{
   id: string
@@ -39,10 +41,15 @@ const iconMapping: Record<string, React.ElementType> = {
 
 const TemplateSidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
+  const navigate = useNavigate()
 
   const handleToggleSidebar = useCallback(() => {
     setIsOpen((prev) => !prev)
   }, [])
+
+  const handleNavigateToProfile = useCallback(() => {
+    navigate('/profile')
+  }, [navigate])
 
   const { template, setTemplate } = useSearchState()
 
@@ -65,6 +72,9 @@ const TemplateSidebar = () => {
           left: -48,
           top: 16,
           zIndex: 1001,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
         }}
       >
         <Tooltip title={isOpen ? "Close template panel" : "Open template panel"}>
@@ -80,6 +90,21 @@ const TemplateSidebar = () => {
             }}
           >
             {isOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Go to profile">
+          <IconButton
+            aria-label="go to profile"
+            onClick={handleNavigateToProfile}
+            sx={{
+              backgroundColor: 'background.paper',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+              boxShadow: 1,
+            }}
+          >
+            <AccountCircleIcon />
           </IconButton>
         </Tooltip>
       </Box>
