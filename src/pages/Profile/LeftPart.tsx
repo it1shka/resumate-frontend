@@ -5,7 +5,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import { roles } from '../configuration'
 
 const LeftPart = () => {
-  const { username, role, phone, email, description } = useProfileState()
+  const { username, role, phone, email, description, setField } = useProfileState()
 
   return (
     <Box
@@ -26,16 +26,17 @@ const LeftPart = () => {
             <PersonIcon sx={{ fontSize: 100 }} />
           </Avatar>
         </Box>
-        <TextField label="Username" value={username} />
+        <TextField label="Username" value={username} onChange={e => setField('username', e.target.value)} disabled />
         <Autocomplete
           freeSolo
           options={roles}
-          value={role}
+          value={role || null}
+          onChange={(_, value) => setField('role', value || undefined)}
           renderInput={params => <TextField {...params} label="Role" />}
         />
-        <TextField label="Phone" value={phone} />
-        <TextField label="Email" value={email} />
-        <TextField label="Description" value={description} multiline rows={4} />
+        <TextField label="Phone" value={phone} onChange={e => setField('phone', e.target.value)} />
+        <TextField label="Email" value={email} onChange={e => setField('email', e.target.value)} />
+        <TextField label="Description" value={description} multiline rows={4} onChange={e => setField('description', e.target.value)} />
       </Box>
     </Box>
   )
