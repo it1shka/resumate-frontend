@@ -3,6 +3,7 @@ import RegistrationImage from '../../assets/registration.png'
 import JobSearch from '../../assets/job_search.png'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
+import Logo from '../../assets/logo.svg'
 
 const photos = [
   {
@@ -33,7 +34,19 @@ const AboutUs = () => {
     <Box
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
-      <Typography variant="h3" sx={{ mt: 10 }}>
+      <Box
+        component="img"
+        src={Logo}
+        alt="ResuMate Logo"
+        sx={{
+          width: 200,
+          height: 200,
+          mt: 12,
+          animation: 'fadeIn 0.5s ease-in-out',
+        }}
+      />
+
+      <Typography variant="h3" sx={{ mt: 4 }}>
         Resu
         <Typography
           variant="h3"
@@ -49,7 +62,7 @@ const AboutUs = () => {
       <Button
         variant="outlined"
         color="primary"
-        sx={{ mt: 2, mb: 10 }}
+        sx={{ mt: 3, mb: 10 }}
         onClick={handleGetStarted}
       >
         Get Started
