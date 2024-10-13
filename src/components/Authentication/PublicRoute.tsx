@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom'
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { token } = useAuthState()
 
-  if (token) return <Navigate to="/profile" />
+  if (token) return <Navigate to="/search" />
 
   return <>{children}</>
 }

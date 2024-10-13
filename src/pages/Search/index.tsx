@@ -16,7 +16,10 @@ import bullDogJobIcon from '../../assets/bulldogjob.png'
 import useSearchState from './searchState'
 import TemplateSidebar from './TemplateSidebar'
 import useAuthCallback from '../../components/Authentication/useAuthCallback'
-import { NotificationType, useNotifications } from '../../components/NotificationManager/notificationsState'
+import {
+  NotificationType,
+  useNotifications,
+} from '../../components/NotificationManager/notificationsState'
 import FsLightbox from 'fslightbox-react'
 import WebPreview from './WebPreview'
 
@@ -102,9 +105,12 @@ const Search = () => {
     return 'success.main'
   }, [search, currentDomain, isValidURL])
 
-  const handleOpenWebsite = useCallback((link: string) => {
-    window.open(link, '_blank')
-  }, [currentDomain])
+  const handleOpenWebsite = useCallback(
+    (link: string) => {
+      window.open(link, '_blank')
+    },
+    [currentDomain],
+  )
 
   const createResume = useAuthCallback({
     url: 'http://localhost:8080/api/processing/process',
@@ -126,17 +132,27 @@ const Search = () => {
 
   const handleCreateResume = useCallback(async () => {
     try {
-    setPending(true)
-    const { data, error } = await createResume()
-    setPending(false)
-    if (error) {
-      pushNotification({ message: error, notificationType: NotificationType.ERROR, title: 'Error', timeout_ms: 2500 })
-    } else {
+      setPending(true)
+      const { data, error } = await createResume()
+      setPending(false)
+      if (error) {
+        pushNotification({
+          message: error,
+          notificationType: NotificationType.ERROR,
+          title: 'Error',
+          timeout_ms: 2500,
+        })
+      } else {
         setResume(data)
       }
     } catch (error) {
       setPending(false)
-      pushNotification({ message: 'An error occurred', notificationType: NotificationType.ERROR, title: 'Error', timeout_ms: 2500 })
+      pushNotification({
+        message: 'An error occurred',
+        notificationType: NotificationType.ERROR,
+        title: 'Error',
+        timeout_ms: 2500,
+      })
     }
   }, [createResume, pushNotification])
 
@@ -284,31 +300,26 @@ const Search = () => {
           >
             {searchStatus}
           </Typography>
-          {pending && (
-            <CircularProgress sx={{ marginTop: 2 }} />
-          )}
+          {pending && <CircularProgress sx={{ marginTop: 2 }} />}
           {resume && (
             <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button
-              variant="contained"
-              sx={{ marginTop: 2, marginRight: 1 }}
-              onClick={handleGetResume}
-            >
-              Get Resume
-            </Button>
-            <Tooltip title="Opens Lightbox">
               <Button
                 variant="contained"
-                sx={{ marginTop: 2 }}
-                onClick={handleToggleLightbox}
+                sx={{ marginTop: 2, marginRight: 1 }}
+                onClick={handleGetResume}
+              >
+                Get Resume
+              </Button>
+              <Tooltip title="Opens Lightbox">
+                <Button
+                  variant="contained"
+                  sx={{ marginTop: 2 }}
+                  onClick={handleToggleLightbox}
                 >
                   View Resume
                 </Button>
               </Tooltip>
-              <FsLightbox
-                toggler={showLightbox}
-                sources={[resume]}
-              />
+              <FsLightbox toggler={showLightbox} sources={[resume]} />
             </Box>
           )}
         </Box>
