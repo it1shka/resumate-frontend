@@ -20,6 +20,7 @@ type SupportedDomains = Readonly<
     domain: string
     name: string
     icon: string
+    link: string
   }>
 >
 
@@ -28,21 +29,25 @@ const supportedDomains: SupportedDomains = Object.freeze([
     domain: 'pracuj.pl',
     name: 'Pracuj.pl',
     icon: pracujPlIcon,
+    link: 'https://www.pracuj.pl/',
   },
   {
     domain: 'nofluffjobs.com',
     name: 'No Fluff Jobs',
     icon: noFluffJobsIcon,
+    link: 'https://nofluffjobs.com/',
   },
   {
     domain: 'justjoin.it',
     name: 'JustJoin.It',
     icon: justJoinItIcon,
+    link: 'https://justjoin.it/',
   },
   {
     domain: 'bulldogjob.com',
     name: 'BullDogJob',
     icon: bullDogJobIcon,
+    link: 'https://bulldogjob.pl/',
   },
 ])
 
@@ -91,6 +96,10 @@ const Search = () => {
     if (!currentDomain) return 'info.main'
     return 'success.main'
   }, [search, currentDomain, isValidURL])
+
+  const handleOpenWebsite = useCallback((link: string) => {
+    window.open(link, '_blank')
+  }, [currentDomain])
 
   return (
     <>
@@ -171,9 +180,11 @@ const Search = () => {
             {supportedDomains.map(domain => (
               <Tooltip title={domain.domain}>
                 <Box
+                  onClick={() => handleOpenWebsite(domain.link)}
                   key={domain.domain}
                   sx={{
                     display: 'flex',
+                    cursor: 'pointer',
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 1,
