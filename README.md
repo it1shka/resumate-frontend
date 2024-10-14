@@ -7,5 +7,6 @@ User can create a profile with personal information such as:
 1. Skills
 2. Experience
 3. Cover letter
+
 and other things you would expect on a resume, and then they can
 paste job link to the website and get a perfect crafted resume
